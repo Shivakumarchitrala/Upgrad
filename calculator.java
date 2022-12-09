@@ -1,4 +1,4 @@
-//This is for testing modification
+//This is for testing made in the code
 import java.util.Scanner;
 
  public class calculator
