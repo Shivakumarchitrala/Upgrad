@@ -1,6 +1,6 @@
 pipeline{
    //agent any
-   agent {label 'Worker'}
+   agent {label 'worker'}
    options{
     buildDiscarder(logRotator(numToKeepStr: '15'))
     disableConcurrentBuilds()
@@ -19,9 +19,12 @@ pipeline{
    stages{
     stage('Build and Push'){
         steps{
-            sh "echo Hello"
-            sh cd vote
-            sh docker build -t .           
+            sh '''
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 584716546011.dkr.ecr.us-east-1.amazonaws.com
+            cd vote
+            docker build -t 584716546011.dkr.ecr.us-east-1.amazonaws.com/demo-c41:v${BUILD_NUMBER} .
+            docker push 584716546011.dkr.ecr.us-east-1.amazonaws.com/demo-c41:v${BUILD_NUMBER}
+            '''
         }
     }
     stage('Deploy Stage'){
