@@ -20,6 +20,8 @@ pipeline{
     stage('Build and Push'){
         steps{
             sh "echo Hello"
+            sh cd vote
+            sh docker build -t .           
         }
     }
     stage('Deploy Stage'){
